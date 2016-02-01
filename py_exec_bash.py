@@ -1,3 +1,5 @@
+# https://imsardine.wordpress.com/tech/shell-scripting-in-python/
+
 import subprocess, sys
 
 def Test( ):

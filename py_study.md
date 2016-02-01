@@ -53,3 +53,7 @@ sa = httpd.socket.getsockname()
 print "Serving HTTP on", sa[0], "port", sa[1], "..."
 httpd.serve_forever()
 ```
+
+
+# hack
+[Python渗透测试工具合集](http://www.freebuf.com/tools/94777.html)
