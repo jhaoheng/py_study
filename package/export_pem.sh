@@ -1,33 +1,19 @@
 #!/bin/bash
+#!/usr/bin/expect
 
-source checkFile.sh
+source ./checkFile.sh
 
-status=$(checkFile)
-echo $status[0]
-# if [[ "$status" = True ]]; then
-#     echo "ok"
-# else
-#     echo "no"
-# fi
-
-# 輸入執行參數，建立 pro or dev 的 pem 憑證
-
-
-
-
-
-# if [ ! checkFile ] ; then
-# {
-#     echo "123"
-# }
-# fi
-
-
-
-# 判斷目錄是否存在
-# if [ -d /shells/log1_"$1" ]; then
-#  echo -n "目錄 /shells/log1_" ; echo -n $1; echo " 已經存在！"
-# else
-#  mkdir /shells/log1_$1
-#  echo "建立子目錄 log1_$1"
-# fi
+status=$(fileStatus)
+echo $status
+IFS='+' read -a status_array <<< "$status"
+if [[ ${status_array[0]} == true ]]; then
+    if [[ ${status_array[1]} == dev ]]; then
+        openssl x509 -in ./dev/develop.cer -inform der -out ./dev/develop.pem
+        openssl pkcs12 -nocerts -out ./dev/developKey.pem -in ./dev/developKey.p12
+        cat ./dev/develop.pem ./dev/developKey.pem > ./dev/apns_dev.pem
+    else
+        openssl x509 -in ./pro/pro.cer -inform der -out ./pro/pro.pem
+        openssl pkcs12 -nocerts -out ./pro/proKey.pem -in ./pro/proKey.p12
+        cat ./pro/pro.pem ./pro/proKey.pem > ./pro/apns_pro.pem
+    fi
+fi

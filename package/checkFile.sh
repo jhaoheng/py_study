@@ -1,7 +1,20 @@
 #!/bin/bash
+
+# 輸入建立 dev or pro file
+read -p "please input 'dev' or 'pro' : " fileName
+
+echo "=================="
+echo "you choice : "$fileName
+echo "=================="
+
 # 檢查檔案是否存在
-cerfile=./pro/develop.cer
-keyfile=./pro/developKey.p12
+if [[ $fileName == dev ]]; then
+    cerfile=./$fileName/develop.cer
+    keyfile=./$fileName/developKey.p12
+else
+    cerfile=./$fileName/pro.cer
+    keyfile=./$fileName/proKey.p12
+fi
 
 function checkFile (){
     array=($cerfile $keyfile)
@@ -12,38 +25,41 @@ function checkFile (){
         check=${array[$i]}
         temp="array[$i]=$check"
         if [ -e $check ] ; then
-            echo "File exists, "$temp
-            echo true
+            # echo "File exists, "$temp":true"
+            array2=$array2+"File exists, "$temp":true"
         else
-            echo "File does not exist, "$temp
-            echo false
+            # echo "File does not exist, "$temp":false"
+            array2=$array2+"File does not exist, "$temp":false"
         fi
     done
+
+    echo "return :" $array2
 }
 # checkFile
-status=$(checkFile | grep 'false')
-echo $status
+status=$(checkFile)
+# echo $status
+IFS='+' read -a return_checkFile <<< "$status"
+# printf ${return_checkFile[0]}
 
-要放到陣列中比較好
+# cer
+# echo ${array3[1]}
+cer_status=${return_checkFile[1]}
+IFS=':' read -a cer_status_array <<< "$cer_status"
+# echo ${temp_1_array[1]}
+if [[ ${cer_status_array[1]} == false ]]; then
+    echo ${cer_status_array[0]}
+fi
 
-# if [[ $status == false ]]; then
-#     echo "========="
-#     no_file=$(checkFile | grep 'File does not exist')
-#     echo $no_file
-#     echo "========="
-# else
-#     echo "沒問題"
-# fi
+# key
+key_status=${return_checkFile[2]}
+IFS=':' read -a key_status_array <<< "$key_status"
+if [[ ${key_status_array[1]} == false ]]; then
+    echo ${key_status_array[0]}
+fi
 
-# file=./develop.cer
-# if [ -e "$file" ]; then
-# echo "File exists"
-# else
-# echo "File does not exist"
-# fi
-# tt=( checkFile | grep name)
-# echo $tt
-# returnt=$(checkFile)
-# echo $returnt
-# tt=$(checkFile)
-# echo ${tt[@]}
+function fileStatus()
+{
+    if [[ ${key_status_array[1]} == true && ${cer_status_array[1]} == true ]]; then
+        echo true'+'$fileName
+    fi
+}
