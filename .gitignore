@@ -1,5 +1,7 @@
-*.pem
-*.cer
-*.p12
-csr/*
-!./package/drawer/sample/*
+#*.pem
+#*.cer
+#*.p12
+/package/drawer/*
+!/package/drawer/sample
+!/package/drawer/sample/*
+#!./package/drawer/sample/*
