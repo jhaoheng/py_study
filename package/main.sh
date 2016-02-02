@@ -8,14 +8,16 @@ echo "./export_pem.sh"
 echo "./checkFile.sh"
 echo "./dev/"
 echo "./pro/"
-echo "Put your cer/key on 'dev/' or 'pro/'"
+echo "Put your cer/key on 'dev/' or 'pro/', FIRST"
 echo ""
 echo "************************"
-echo "1. 建立憑證 pem"
-echo "2. openssl 執行 dev 憑證驗證(return code = 0 or 20,success)"
-echo "3. openssl 執行 pro 憑證驗證(return code = 0 or 20,success)"
-echo "4. 測試 apple gateway 是否正常運作"
-read -p "請輸入數字 : " selected
+echo "1. Create 'PEM' from dev/ or pro/..."
+echo "2. openssl, use dev to connect APNS(return code = 0 or 20,success)"
+echo "3. openssl, use pro to connect APNS(return code = 0 or 20,success)"
+echo "4. Test connect APNS is working"
+echo "5. If you don't know how to create 'APNS certificate', check out!"
+echo ""
+read -p "Insert number : " selected
 
 
 echo "==========="
@@ -30,5 +32,10 @@ then
 elif [[ $selected == 4 ]]
 then
     sleep 2 | telnet gateway.sandbox.push.apple.com 2195
+elif [[ $selected == 5 ]]
+then
+    open https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW11
 fi
-echo "==========="
+echo ""
+echo ""
+echo "Finish..."
