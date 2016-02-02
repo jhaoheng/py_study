@@ -24,24 +24,30 @@ read -p "Insert number : " selected
 
 echo "==========="
 if [[ $selected == 1 ]]; then
+    ls -al ./drawer
     sh export_pem.sh
+
 elif [[ $selected == 2 ]]
 then
     sleep 2 | openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert ./dev/develop.pem -key ./dev/developKey.pem
+
 elif [[ $selected == 3 ]]
 then
     sleep 2 | openssl s_client -connect gateway.push.apple.com:2195 -cert ./pro/pro.pem -key ./pro/proKey.pem
+
 elif [[ $selected == 4 ]]
 then
     sleep 2 | telnet gateway.sandbox.push.apple.com 2195
+
 elif [[ $selected == 5 ]]
 then
     open https://developer.apple.com/library/ios/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW11
 
 elif [[ $selected == 6 ]]
-    open https://developer.apple.com/library/ios/technotes/tn2265/_index.html#//apple_ref/doc/uid/DTS40010376
 then
+    open https://developer.apple.com/library/ios/technotes/tn2265/_index.html#//apple_ref/doc/uid/DTS40010376
 fi
+
 echo ""
 echo ""
 echo "Finish..."
