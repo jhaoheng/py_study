@@ -3,6 +3,9 @@
 # 輸入建立 dev or pro file
 read -p "please input 'dev' or 'pro' : " fileName
 
+# 要加入，選擇的產品名稱，格式為 name_<dev or pro><Key>
+# 但是路徑應該是 ./name/<dev or pro>/
+
 echo "=================="
 echo "you choice : "$fileName
 echo "=================="
