@@ -1,23 +1,22 @@
 #!/bin/bash
 
-# 輸入建立 dev or pro file
-read -p "please input 'dev' or 'pro' : " fileName
+# echo "......"$filePath"/"$mode
 
-# 要加入，選擇的產品名稱，格式為 name_<dev or pro><Key>
-# 但是路徑應該是 ./name/<dev or pro>/
+productPath=$filePath
+mode=$mode
 
-echo "=================="
-echo "you choice : "$fileName
-echo "=================="
-
-# 檢查檔案是否存在
-if [[ $fileName == dev ]]; then
-    cerfile=./$fileName/develop.cer
-    keyfile=./$fileName/developKey.p12
+# check cer and key is exist
+if [[ $mode == dev ]]; then
+    cerfile=./drawer/$productPath/$mode/develop.cer
+    keyfile=./drawer/$productPath/$mode/developKey.p12
 else
-    cerfile=./$fileName/pro.cer
-    keyfile=./$fileName/proKey.p12
+    cerfile=./drawer/$productPath/$mode/pro.cer
+    keyfile=./drawer/$productPath/$mode/proKey.p12
 fi
+
+# echo $productPath $mode
+# echo $cerfile
+# echo $keyfile
 
 function checkFile (){
     array=($cerfile $keyfile)
@@ -42,7 +41,7 @@ function checkFile (){
 status=$(checkFile)
 # echo $status
 IFS='+' read -a return_checkFile <<< "$status"
-# printf ${return_checkFile[0]}
+# echo ${return_checkFile[0]}
 
 # cer
 # echo ${array3[1]}
@@ -63,6 +62,6 @@ fi
 function fileStatus()
 {
     if [[ ${key_status_array[1]} == true && ${cer_status_array[1]} == true ]]; then
-        echo true'+'$fileName
+        echo true'+'$productPath'+'$mode
     fi
 }

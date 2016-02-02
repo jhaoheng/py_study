@@ -7,9 +7,9 @@ echo "Please confirm the 'package' file:"
 echo "./main.sh"
 echo "./export_pem.sh"
 echo "./checkFile.sh"
-echo "./dev/"
-echo "./pro/"
-echo "Put your cer/key on 'dev/' or 'pro/', FIRST"
+echo "./drawer/<your product folder>/dev/"
+echo "./drawer/<your product folder>/pro/"
+echo "Put your cer/key on '<your product folder>/dev/' or '<your product folder>/pro/', FIRST"
 echo ""
 echo "************************"
 echo "1. Create 'PEM' from dev/ or pro/..."
@@ -21,19 +21,33 @@ echo "6. Troubleshooting Push Notifications(website)"
 echo ""
 read -p "Insert number : " selected
 
+# 選擇路徑位置
 
 echo "==========="
-if [[ $selected == 1 ]]; then
+if [[ $selected == 1 || $selected == 2 || $selected == 3 ]]; then
     ls -al ./drawer
-    sh export_pem.sh
+    echo ""
+    echo "Please select you product path...."
+    read -p "file path is : " filePath
 
-elif [[ $selected == 2 ]]
-then
-    sleep 2 | openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert ./dev/develop.pem -key ./dev/developKey.pem
+    echo "=================="
+    echo "you choice path is : "$filePath
+    echo "=================="
 
-elif [[ $selected == 3 ]]
-then
-    sleep 2 | openssl s_client -connect gateway.push.apple.com:2195 -cert ./pro/pro.pem -key ./pro/proKey.pem
+    if [[ $selected == 1 ]]; then
+        echo ""
+        echo "Please choice you want to create mode:(dev or pro)"
+        read -p "Mode is : " mode
+        source export_pem.sh
+
+    elif [[ $selected == 2 ]]; then
+        path=drawer/$filePath/dev
+        echo $path
+        sleep 2 | openssl s_client -connect gateway.sandbox.push.apple.com:2195 -cert ./$path/develop.pem -key ./$path/developKey.pem
+    elif [[ $selected == 3 ]]; then
+        path=drawer/$filePath/pro
+        sleep 2 | openssl s_client -connect gateway.push.apple.com:2195 -cert ./$path/pro.pem -key ./$path/proKey.pem
+    fi
 
 elif [[ $selected == 4 ]]
 then
